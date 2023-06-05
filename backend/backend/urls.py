@@ -23,10 +23,6 @@ router = routers.DefaultRouter()
 router.register(r'persons', PersonViewSet)
 
 urlpatterns = [
-    path('', include(router.urls)),
-]
-
-urlpatterns = [
     path("admin/", admin.site.urls),
     path('', include(router.urls)),
 ]
