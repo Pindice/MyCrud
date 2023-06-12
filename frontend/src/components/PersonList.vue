@@ -9,14 +9,14 @@
             <div class="col-sm-6">
               <div class="form-group">
                 <label>First Name:</label>
-                <input v-model="form.first_name" type="text" class="form-control" required>
+                <input v-model="form.first_name" type="text" class="form-control" maxlength="255" required>
               </div>
             </div>
 
           <div class="col-sm-6">
             <div class="form-group">
               <label>Last Name:</label>
-              <input v-model="form.last_name" type="text" class="form-control" required>
+              <input v-model="form.last_name" type="text" class="form-control" maxlength="255" required>
             </div>
           </div>
 
@@ -35,21 +35,21 @@
           <div class="col-sm-6">
             <div class="form-group">
               <label>Phone Number:</label>
-              <input v-model="form.phone_number" type="text" class="form-control" required>
+              <input v-model="form.phone_number" type="text" class="form-control" maxlength="20" required>
             </div>
           </div>
 
           <div class="col-sm-12">
             <div class="form-group">
               <label>Email:</label>
-              <input v-model="form.email" type="email" class="form-control" required>
+              <input v-model="form.email" type="email" class="form-control" maxlength="254" required>
             </div>
           </div>
 
           <div class="col-sm-12">
             <div class="form-group">
               <label>Personal Email:</label>
-              <input v-model="form.email_personnal" type="email" class="form-control" required>
+              <input v-model="form.email_personnal" type="email" class="form-control" maxlength="254" required>
             </div>
           </div>
 
