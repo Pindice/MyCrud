@@ -24,6 +24,7 @@
             <div class="form-group">
               <label>Gender:</label>
               <select v-model="form.gender" class="form-control" required>
+                <option value="" disabled selected hidden>Sélectionner une option</option>
                 <option value="Male">Male</option>
                 <option value="Female">Female</option>
                 <option value="Other">Other</option>
