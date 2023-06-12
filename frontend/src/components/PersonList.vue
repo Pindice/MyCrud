@@ -3,14 +3,15 @@
     <h1 class="text-center display-4">Person List</h1>
 
     <div class="container">
-      <form @submit.prevent="submitForm" class="person-form">
-        <div class="row">
-          <div class="col-sm-6">
-            <div class="form-group">
-              <label>First Name:</label>
-              <input v-model="form.first_name" type="text" class="form-control" required>
+      <div class="fixed-form">
+        <form @submit.prevent="submitForm" class="person-form">
+          <div class="row">
+            <div class="col-sm-6">
+              <div class="form-group">
+                <label>First Name:</label>
+                <input v-model="form.first_name" type="text" class="form-control" required>
+              </div>
             </div>
-          </div>
 
           <div class="col-sm-6">
             <div class="form-group">
@@ -51,8 +52,8 @@
             </div>
           </div>
 
-          <div class="col-sm-12">
-            <div class="form-group">
+          <div class="col-sm-12 mt-3">
+            <div class="form-group d-flex justify-content-center">
               <button v-if="!editing" type="submit" class="btn btn-success">Add Person</button>
               <button v-else type="submit" class="btn btn-primary">Update Person</button>
               <button @click="cancelEdit" v-if="editing" class="red-button">Cancel</button>
@@ -60,6 +61,7 @@
           </div>
         </div>
       </form>
+    </div>
 
     <div class="table-responsive mx-auto">
       <table class="table">
@@ -285,6 +287,20 @@ button {
   cursor: pointer;
   font-size: 14px;
   transition: background-color 0.3s ease;
+}
+
+.fixed-form {
+  position: sticky;
+  top: 0;
+  background-color: white;
+  z-index: 999;
+  padding: 10px;
+}
+
+.table-responsive {
+  margin-top: 100px; /* Ajustez cette valeur en fonction de la hauteur du formulaire */
+  max-height: calc(100vh - 200px); /* Ajustez cette valeur en fonction de la hauteur disponible */
+  overflow-y: auto;
 }
 
 .red-button {
