@@ -3,7 +3,7 @@
     <h1 class="text-center display-4">Person List</h1>
 
     <div class="container">
-      <div class="fixed-form">
+      <div class="fixed-form" v-if="!showConfirmation">
         <form @submit.prevent="submitForm" class="person-form">
           <div class="row">
             <div class="col-sm-6">
@@ -132,6 +132,7 @@ export default {
         email: '',
         email_personnal: ''
       },
+      originalForm: {},
       persons: [],
       editing: false,
       notification: '',
@@ -168,6 +169,9 @@ export default {
         this.clearForm();
         this.editing = false;
         this.showNotification('Person updated successfully.');
+        
+        // Rafraîchir les données
+        this.fetchPersons();
       } catch (error) {
         console.error(error.response);
         this.showNotification('Failed to update person. Please try again.', 'error');
@@ -175,6 +179,7 @@ export default {
     },
     async editPerson(person) {
       this.form = { ...person };
+      this.originalForm = { ...person };
       this.editing = true;
     },
     async deletePerson(personId) {
@@ -200,7 +205,7 @@ export default {
       }
     },
     cancelEdit() {
-      this.clearForm();
+      this.form = { ...this.originalForm };
       this.editing = false;
     },
     clearForm() {
@@ -238,24 +243,23 @@ export default {
         .catch(error => {
           console.error(error.response);
           this.showNotification('Failed to delete person. Please try again.', 'error');
+        })
+        .finally(() => {
+          this.personToDeleteId = null;
+          this.showConfirmation = false;
         });
-
+    },
+    deleteCanceled() {
+      this.personToDeleteId = null;
       this.showConfirmation = false;
     },
-
-    deleteCancelled() {
-      // Annuler la suppression
-      this.showNotification('Deletion cancelled.');
-
-      // Fermer la boîte de dialogue modale
-      this.showConfirmation = false;
-    }
   },
   mounted() {
     this.fetchPersons();
-  }
+  },
 };
 </script>
+
 
 
 <style scoped>
