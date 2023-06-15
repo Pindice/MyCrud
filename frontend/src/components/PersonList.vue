@@ -198,6 +198,7 @@ export default {
     async fetchPersons() {
       try {
         const response = await axios.get('http://localhost:8000/persons/');
+        console.log(response.data);
         this.persons = response.data;
       } catch (error) {
         console.error(error.response);
