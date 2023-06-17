@@ -2,17 +2,13 @@ version: '3'
 
 services:
   backend:
-    build:
-      context: ./backend
-      dockerfile: Dockerfile
+    build: .
     ports:
       - 8000:8000
     depends_on:
       - db
-    links:
-      - db
     environment:
-      - POSTGRES_HOST=172.18.0.2
+      - POSTGRES_HOST=db
       - POSTGRES_PORT=5432
       - POSTGRES_DB=crudb
       - POSTGRES_USER=postgres
@@ -20,7 +16,7 @@ services:
 
   frontend:
     build:
-      context: ./frontend
+      context: .
     ports:
       - 8080:8080
 
