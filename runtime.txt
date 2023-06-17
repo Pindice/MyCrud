@@ -1,2 +1,2 @@
-python-3.10.11
+python-3.10.4
 -r backend/requirements.txt
