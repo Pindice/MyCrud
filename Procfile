@@ -1,1 +1,1 @@
-web: gunicorn MyCrud.wsgi --log-file -
+web: gunicorn myapp.wsgi --log-file -
