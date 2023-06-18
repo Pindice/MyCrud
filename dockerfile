@@ -1,7 +1,7 @@
 # Construire l'image de l'application Django
 FROM python:3.9 as backend
 
-WORKDIR /app/backend
+WORKDIR /backend
 
 COPY backend/requirements.txt ./
 RUN pip install -r requirements.txt
@@ -12,7 +12,7 @@ CMD ["python", "manage.py", "runserver", "0.0.0.0:8000"]
 # Construire l'image de l'application Vue.js
 FROM node:14 as frontend
 
-WORKDIR /app/frontend
+WORKDIR /frontend
 
 COPY frontend/package*.json ./
 RUN npm install
@@ -25,9 +25,9 @@ FROM python:3.9-slim
 
 ENV PYTHONUNBUFFERED=1
 
-WORKDIR /app
+WORKDIR /.
 
-COPY --from=backend /app/backend /app/backend
-COPY --from=frontend /app/frontend/dist /app/frontend/dist
+COPY --from=backend /backend /backend
+COPY --from=frontend /frontend/dist /frontend/dist
 
 CMD ["python", "manage.py", "runserver", "0.0.0.0:8000"]
