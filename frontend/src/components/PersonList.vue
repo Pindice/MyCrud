@@ -109,7 +109,7 @@
           <p>Are you sure you want to delete this person?</p>
           <div class="modal-actions">
             <button @click="deleteConfirmed" class="green-button">Yes</button>
-            <button @click="deleteCancelled" class="red-button">No</button>
+            <button @click="deleteCanceled" class="red-button">No</button>
           </div>
         </div>
       </div>

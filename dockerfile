@@ -1,15 +1,18 @@
-# Construire l'image de l'application Django
-FROM python:3.9 as backend
+# Build the Django application
+FROM python:3.9-slim-buster as backend-build
+
+# Install gcc libpq-dev
+RUN apt-get update && apt-get install -y gcc libpq-dev
 
 WORKDIR /backend
 
 COPY backend/requirements.txt ./
-RUN pip install -r requirements.txt
+RUN pip install --no-cache-dir -r requirements.txt
 
 COPY backend .
 
-# Construire l'image de l'application Vue.js
-FROM node:14 as frontend
+# Build the Vue.js application
+FROM node:14 as frontend-build
 
 WORKDIR /frontend
 
@@ -19,17 +22,31 @@ RUN npm install
 COPY frontend .
 RUN npm run build
 
-# Combiner l'application Django et l'application Vue.js
-FROM python:3.9-slim
+# Combine the Django and Vue.js applications
+FROM python:3.9-slim-buster
 
 ENV PYTHONUNBUFFERED=1
 
-WORKDIR /backend
+WORKDIR /app
 
-COPY --from=backend /backend /backend
-COPY --from=frontend /frontend/dist /frontend/dist
+# Copy the Django application code
+COPY --from=backend-build /backend /app
 
-# Copier l'environnement virtuel et les dépendances installées
-COPY --from=backend /usr/local/lib/python3.9/site-packages /usr/local/lib/python3.9/site-packages
+# Copy the Vue.js static files
+COPY --from=frontend-build /frontend/dist /app/frontend/dist
 
-CMD ["python", "manage.py", "runserver", "0.0.0.0:8000"]
+# Install psycopg2 dependencies
+RUN apt-get update && apt-get install -y libpq-dev
+
+# Install the application dependencies
+COPY backend/requirements.txt .
+RUN pip install --no-cache-dir -r requirements.txt
+
+# Install Gunicorn
+RUN pip install gunicorn
+
+# Expose port 8000
+EXPOSE 8000
+
+# Set the entrypoint command to run Gunicorn
+CMD ["gunicorn", "backend.wsgi:application", "--bind", "0.0.0.0:8000"]
